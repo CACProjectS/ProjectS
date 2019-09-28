@@ -1,0 +1,225 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Astrophysics</title>
+        <meta name="description" content="Astrophysics">
+    </head>
+    <body>
+    <style>
+        body {
+            position:fixed;
+            background:black;
+        }
+        #planetname {
+            text-align:left;
+            font-family:"Segoe UI Light";
+            font-size:100px;
+            position: absolute;
+            top: 470px;
+            left: 1160px;
+            width: 650px;
+            height:300px;
+            color: rgba(200, 200, 200);
+            opacity:0;
+        }
+        #bulletpoints {
+            text-align:left;
+            font-family:"Segoe UI Light";
+            font-size:20px;
+            position: absolute;
+            top: 470px;
+            left: 1160px;
+            width: 650px;
+            height:300px;
+            color: rgba(0, 0, 0, 0);
+            opacity:0;
+        }
+        #infotext {
+            text-align:center;
+            font-size:18px;
+            font-family:"Segoe UI Light";
+            position: absolute;
+            top: 870px;
+            left: 1160px;
+            width: 650px;
+            height:300px;
+            color: rgba(200, 200, 200, 0);
+            opacity:0;
+        }
+        #greybox {
+            position:absolute;
+            left:1130px;
+            top:920px;
+            background:rgba(100, 100, 100, 255);
+            width:700px;
+            height:50px;
+            opacity:0;
+            border: 8px outset rgba(200, 200, 200, 255);
+            border-radius:10px;
+        }
+    </style>
+    <div id="greybox"></div>
+    <h1 id="planetname">The Sun</h1>
+    <h3 id="bulletpoints">• Diameter - 864,938 miles (1,391,983 kilometers)<br>• Distance from center of Milky Way - 8 kiloparsecs (26092.48
+ light years)<br>• Galactical Orbit Time - ~250,000,000 earth years<br>• Rotation Time - 24.47 earth days
+</h3>
+    <h5 id="infotext">The Sun, whose wording comes from the Old and Middle English “sonne” / ”sunne”, is the center of our Solar System, and by far the closest star to Earth. There have been various depictions of the sun throughout ancient history, with some notable depictions being Ra, the sun god in Egyptian mythology, and Amaterasu, the sun god in Shintoism. The Sun is a yellow dwarf and is a type G star. Its heat is immense, with surface temperatures reaching 5,700 C, while the coronal temperature (gas above the surface) can reach up to 1,000,000 C. The Sun is composed of several layers: the corona, the chromosphere, the photosphere, the convection zone, the radiative zone, and the core. As for elemental composition, the Sun is made up of around 38.5% hydrogen, 60% helium, and 1.5% of various heavier elements. Sunlight also contains ultraviolet radiation, which heavily affects many aspects of life. As it houses Earth, it is the only star currently known to house life within its gravitational pull. </h5>
+    <script>
+        var infoBoxState = 0;
+        var currentlyMoving = false;
+        var infoText = function(x, w) {
+            console.log("why");
+            if (infoBoxState === 0) {
+                if (currentlyMoving === false) {
+                    infoTextUp(x, w);
+                    currentlyMoving = true;
+                }
+            }
+            if (infoBoxState === 1) {
+                if (currentlyMoving === false) {
+                    infoTextDown(x, w);
+                    currentlyMoving = true;
+                }
+            }
+        };
+        var infoTextUp = function(x, w) {
+            var textBlock = document.getElementById("infotext");
+            var infoBox = document.getElementById("greybox");
+            var planetName = document.getElementById("planetname");
+            var bulletPoints = document.getElementById("bulletpoints");
+            planetName.style.left = x+30;
+            textBlock.style.left = x+30;
+            bulletPoints.style.left = x+30;
+            infoBox.style.left = x;
+            planetName.style.width = w-50;
+            textBlock.style.width = w-50;
+            bulletPoints.style.width = w-50;
+            infoBox.style.width = w;
+            planetName.style.top = "870px";
+            bulletPoints.style.top = "900px";
+            infoBox.style.top = "900px";
+            infoBox.style.height = "150px";
+            infoBox.style.opacity = "0";
+            textBlock.style.opacity = "0";
+            bulletPoints.style.opacity = "0";
+            planetName.style.opacity = "0";
+            textBlock.style.top = "900px";
+            function step() {
+                if (infoBox.style.top.substring(0, 3)<=705) {
+                    if (bulletPoints.style.top.substring(0, 3) >= 330) {
+                        bulletPoints.style.color = "rgba(200, 200, 200)";
+                        bulletPoints.style.top = bulletPoints.style.top.substring(0, 3) - 7 + "px";
+                    }
+                }
+                if (infoBox.style.top.substring(0, 3)<=1000) {
+                    if (planetName.style.top.substring(0, 3) >= 100) {
+                        planetName.style.top = planetName.style.top.substring(0, 3) - 7 + "px";
+                    }
+                }
+                if (textBlock.style.top.substring(0, 3) >= 455 && infoBox.style.top.substring(0, 3)<=575) {
+                    textBlock.style.color = "rgba(200, 200, 200, 255)";
+                    textBlock.style.top = String(parseInt(textBlock.style.top.substring(0, 3)) - 7) + "px";
+                }
+                if (infoBox.style.top.substring(0, 3) >=130) {
+                    infoBox.style.top = infoBox.style.top.substring(0, 3) - 7 + "px";
+                }
+                if (infoBox.style.height.substring(0, 3) <= 700) {
+                    infoBox.style.height = String(parseInt(infoBox.style.height.substring(0, 3)) + 7) + "px";
+                }
+                if (infoBox.style.opacity < .5) {
+                    infoBox.style.opacity = String(parseFloat(infoBox.style.opacity)+0.005);
+                }
+                if (textBlock.style.opacity < 1) {
+                    textBlock.style.opacity = String(parseFloat(textBlock.style.opacity)+0.01);
+                }
+                if (bulletPoints.style.opacity < 1) {
+                    bulletPoints.style.opacity = String(parseFloat(bulletPoints.style.opacity)+0.01);
+                }
+                if (bulletPoints.style.top.substring(0, 3) <= 330) {
+                    infoBoxState = 1;
+                    currentlyMoving = false;
+                    return;
+                }
+                if (planetName.style.opacity < 1) {
+                    planetName.style.opacity = String(parseFloat(planetName.style.opacity)+0.01);
+                }
+                window.requestAnimationFrame(step);
+            };
+            window.requestAnimationFrame(step);
+        };
+        var infoTextDown = function(x, w) {
+            var textBlock = document.getElementById("infotext");
+            var infoBox = document.getElementById("greybox");
+            var planetName = document.getElementById("planetname");
+            var bulletPoints = document.getElementById("bulletpoints");
+            planetName.style.left = x+30;
+            textBlock.style.left = x+30;
+            bulletPoints.style.left = x+30;
+            infoBox.style.left = x;
+            planetName.style.width = w-50;
+            textBlock.style.width = w-50;
+            bulletPoints.style.width = w-50;
+            infoBox.style.width = w;
+            planetName.style.top = "100px";
+            bulletPoints.style.top = "330px";
+            infoBox.style.top = "130px";
+            infoBox.style.height = "700px";
+            infoBox.style.opacity = ".5";
+            textBlock.style.top = "455px";
+            function step() {
+                if (bulletPoints.style.top.substring(0, 3) <= 992) {
+                    bulletPoints.style.top = String(parseInt(bulletPoints.style.top.substring(0, 3)) + 7) + "px";
+                }
+                else {
+                    bulletPoints.style.color = "rgba(0, 0, 0, 0)";
+                }
+                if (infoBox.style.top.substring(0, 3)<=1000) {
+                    planetName.style.color = "rgba(200, 200, 200, 255)";
+                    if (planetName.style.top.substring(0, 3) <=992) {
+                        planetName.style.top = String(parseInt(planetName.style.top.substring(0, 3)) + 7) + "px";
+                    }
+                }
+                if (textBlock.style.top.substring(0, 3) <= 992) {
+                    textBlock.style.top = String(parseInt(textBlock.style.top.substring(0, 3)) + 7) + "px";
+                }
+                else {
+                    textBlock.style.color = "rgba(0, 0, 0, 0)";
+                }
+                
+                if (infoBox.style.top.substring(0, 3) <=992) {
+                    infoBox.style.top = String(parseInt(infoBox.style.top.substring(0, 3)) + 7) + "px";
+                }
+                if (infoBox.style.top.substring >=300) {
+                    if (infoBox.style.height.substring(0, 3) >= 150) {
+                        infoBox.style.height = String(parseInt(infoBox.style.height.substring(0, 3)) - 7) + "px";
+                    }
+                }
+                if (infoBox.style.opacity > 0) {
+                    infoBox.style.opacity = String(parseFloat(infoBox.style.opacity)-0.005);
+                }
+                if (textBlock.style.opacity > 0) {
+                    textBlock.style.opacity = String(parseFloat(textBlock.style.opacity)-0.01);
+                }
+                if (bulletPoints.style.opacity > 0) {
+                    bulletPoints.style.opacity = String(parseFloat(bulletPoints.style.opacity)-0.01);
+                }
+                if (planetName.style.opacity > 0) {
+                    planetName.style.opacity = String(parseFloat(planetName.style.opacity)-0.01);
+                }
+                if (planetName.style.top.substring(0, 3) >= 993) {
+                    infoBoxState = 0;
+                    currentlyMoving = false;
+                    return;
+                }
+                window.requestAnimationFrame(step);
+            };
+            window.requestAnimationFrame(step);
+        };
+        
+        window.addEventListener("click", function() {
+            infoText(830, 700);
+        });
+    </script>
+    </body>
+</html>
