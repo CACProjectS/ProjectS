@@ -158,6 +158,7 @@ loader.load('./CAC Planets/Sun/scene.gltf', function(draw){
     var earth = draw.scene.children[0];
     var scale = 0.09639;
     earth.scale.set(scale, scale, scale);
+    earth.rotation.x += Math.PI / 2;
 
     scene.add(draw.scene);
     animate();
