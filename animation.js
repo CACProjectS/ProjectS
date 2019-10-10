@@ -46,7 +46,6 @@ controls.enablePan = false;
 controls.enableKeys = false;
 
 //camera.position.set(0, 0, -1000);
-console.log(camera);
 controls.update()
 
 var maxZoomFrames = 120;
@@ -198,6 +197,10 @@ function animate() {
             controls.enableRotate = true;
 
             state = 'view';
+            if (zoomIn) {
+                infoText(830, 700);
+            }
+
             zoomIn = !zoomIn;
         }
     }
