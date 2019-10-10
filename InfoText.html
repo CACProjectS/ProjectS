@@ -68,6 +68,10 @@
     <script>
         var infoBoxState = 0;
         var currentlyMoving = false;
+        var editText = function(text, id) {
+            var edited = document.getElementById(id);
+            edited = text;
+        };
         var infoText = function(x, w) {
             console.log("why");
             if (infoBoxState === 0) {
