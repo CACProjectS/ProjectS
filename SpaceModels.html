@@ -9,10 +9,10 @@
         
     </head>
     <body>
-<script type="module">
-        import * as THREE from './three/build/three.module.js';
-        import { OrbitControls } from './three/examples/jsm/controls/OrbitControls.js';
-        import { GLTFLoader } from './three/examples/jsm/loaders/GLTFLoader.js';
+        <script src="three.js"></script>
+        <script src="js/controls/OrbitControls.js"></script>
+        <script src="js/loaders/GLTFLoader.js"></script>
+<script>
       let scene, camera, renderer;
       function init() {
         scene = new THREE.Scene();
@@ -22,35 +22,37 @@
         camera.position.x = 800;
         camera.position.y = 100;
         camera.position.z = 1000;
-        var controls = new OrbitControls(camera);
+        controls = new THREE.OrbitControls(camera);
         controls.addEventListener('change', renderer);
-        var hlight = new THREE.AmbientLight (0x404040,5);
+        hlight = new THREE.AmbientLight (0x404040,5);
         scene.add(hlight);
-        var light = new THREE.PointLight(0xc4c4c4,0.25);
+        light = new THREE.PointLight(0xc4c4c4,1);
         light.position.set(0,300,500);
         scene.add(light);
-        var light2 = new THREE.PointLight(0xc4c4c4,0.25);
+        light2 = new THREE.PointLight(0xc4c4c4,1);
         light2.position.set(500,100,0);
         scene.add(light2);
-        var light3 = new THREE.PointLight(0xc4c4c4,0.25);
+        light3 = new THREE.PointLight(0xc4c4c4,1);
         light3.position.set(0,100,-500);
         scene.add(light3);
-        var light4 = new THREE.PointLight(0xc4c4c4,0.25);
+        light4 = new THREE.PointLight(0xc4c4c4,1);
         light4.position.set(-500,300,500);
         scene.add(light4);
         renderer = new THREE.WebGLRenderer({antialias:true});
         renderer.setSize(window.innerWidth,window.innerHeight);
         document.body.appendChild(renderer.domElement);
-        let loader = new GLTFLoader();
-        loader.load('./CAC Planets/Milky Way/scene.gltf', function(draw) {
-            var mercury = draw.scene.children[0];
-            //mercury.scale.set(0.25, 0.25, 0.25);
+        let loader = new THREE.GLTFLoader();
+        loader.load('CAC Planets/Milky Way/scene.gltf', function(draw) {
+            mercury = draw.scene.children[0];
+            mercury.scale.set(5,5,5);
             scene.add(draw.scene);
             animate();
         });
-        loader.load('./CAC Planets/Jupiter/scene.gltf', function(gltf){
-          var sun = gltf.scene.children[0];
-          //sun.scale.set(2,2,2);
+        loader.load('CAC Planets/Earth/scene.gltf', function(gltf){
+          sun = gltf.scene.children[0];
+          sun.scale.set(75,75,75);
+          sun.position.set(-75, -75, -75);
+          sun.rotation.x += 1.5708;
           scene.add(gltf.scene);
           animate();
         });
