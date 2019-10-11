@@ -148,6 +148,3 @@ var infoTextDown = function(x, w) {
     window.requestAnimationFrame(step);
 };
 
-/*window.addEventListener("click", function() {
-    infoText(830, 700);
-});*/
