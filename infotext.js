@@ -1,3 +1,4 @@
+
 var infoBoxState = 0;
 var currentlyMoving = false;
 var infoText = function(x, w) {
@@ -147,4 +148,3 @@ var infoTextDown = function(x, w) {
     };
     window.requestAnimationFrame(step);
 };
-
