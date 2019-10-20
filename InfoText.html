@@ -75,7 +75,7 @@
         };
         var infoBoxState = 0;
         var currentlyMoving = false;
-        var infoText = function(x, w, y) {
+        var infoText = function(x, y, w) {
             if (infoBoxState === 0) {
                 if (currentlyMoving === false) {
                     infoTextUp(x, w, y);
@@ -196,7 +196,7 @@
         };
         
         window.addEventListener("click", function() {
-            infoText(830, 700, 50);
+            infoText(1000, 50, 700);
         });
     </script>
     </body>
