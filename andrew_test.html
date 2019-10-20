@@ -73,9 +73,10 @@
         };
         function step() {
             if (titleScreenVars.titleState === 'up') {
+                console.log(logoText.style.top);
                 titlePage.style.top = String(parseInt(titlePage.style.top.substring(0, parsepx(titlePage.style.top))) - titleScreenVars.titleIncRate)+"px";
                 logoImage.style.top = String(parseInt(logoImage.style.top.substring(0, parsepx(logoImage.style.top))) - titleScreenVars.titleIncRate)+"px";
-                logoText.style.top = String(parseInt(logoText.style.top.substring(0, parsepx(logoText.style.top))) - titleScreenVars.titleIncRate)+"px";
+                logoText.style.top = String(parseInt(logoImage.style.top.substring(0, parsepx(logoImage.style.top)))+260)+"px";
                 titleScreenVars.titleIncRate *= 1.02;
             }
             window.requestAnimationFrame(step);
