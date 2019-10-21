@@ -10,117 +10,77 @@
                 position:fixed;
                 background:black;
             }
-        #planetname {
-            text-align:left;
-            font-family:"Segoe UI Light";
-            font-size:100px;
-            position: absolute;
-            top: 470px;
-            right: 50px;
-            width: 650px;
-            height:300px;
-            color: rgba(200, 200, 200);
-            opacity:0;
-        }
-        #bulletpoints {
-            text-align:left;
-            font-family:"Segoe UI Light";
-            font-size:20px;
-            position: absolute;
-            top: 470px;
-            right: 50px;
-            width: 650px;
-            height:300px;
-            color: rgba(200, 200, 200, 255);
-            opacity:0;
-        }
-        #infotext {
-            text-align:center;
-            font-size:18px;
-            font-family:"Segoe UI Light";
-            position: absolute;
-            top: 870px;
-            right: 50px;
-            width: 650px;
-            height:300px;
-            color: rgb(200, 200, 200);
-            opacity:0;
-        }
-        #greybox {
-            position:absolute;
-            right:20px;
-            top:920px;
-            background:rgba(100, 100, 100, 255);
-            width:700px;
-            height:50px;
-            opacity:0;
-            border: 8px outset rgba(200, 200, 200, 255);
-            border-radius:10px;
-        }
-        #infotoggle {
-            position:absolute;
-            left:20px;
-            bottom:60px;
-            display:none;
-        }
-        #backbutton {
-            position:absolute;
-            left:20px;
-            top:20px;
-            display:none;
-        }
-        <!--#scalebutton {
-            position:absolute;
-            right:20px;
-            top:20px;
-            display:block;
-        }-->
-        #orbitbutton {
-            position:absolute;
-            left:20px;
-            bottom:20px;
-            display:block;
-        }
-        #indicatorbutton {
-            position:absolute;
-            left:20px;
-            bottom:40px;
-            display:block;
-        }
-        <!--
-        #line {
-            position:absolute;
-            left:"";
-            bottom:"";
-            background:rgba(225, 225, 225);
-            display:none;
-        }
-        #upLine1 {
-            position:absolute;
-            height:10px;
-            left:"";
-            bottom:"";
-            border: 2.5px solid rgba(225, 225, 225);
-            display:none;
-        }
-        #upLine2 {
-            position:absolute;
-            height:10px;
-            left:"";
-            bottom:"";
-            border: 2.5px solid rgba(225, 225, 225);
-            display:none;
-        }
-        #scaleText {
-            position:absolute;
-            font-family:"Segoe UI Light";
-            left:"";
-            bottom:"";
-            color:rgba(225, 225, 225);
-            width:"";
-            text-align:center;
-            display:none;
-        }-->
+            #planetname {
+                text-align:left;
+                font-family:"Segoe UI Light";
+                font-size:100px;
+                position: absolute;
+                top: 470px;
+                right: 50px;
+                width: 650px;
+                height:300px;
+                color: rgba(200, 200, 200);
+                opacity:0;
+            }
+            #bulletpoints {
+                text-align:left;
+                font-family:"Segoe UI Light";
+                font-size:20px;
+                position: absolute;
+                top: 470px;
+                right: 50px;
+                width: 650px;
+                height:300px;
+                color: rgba(200, 200, 200, 255);
+                opacity:0;
+            }
+            #infotext {
+                text-align:center;
+                font-size:18px;
+                font-family:"Segoe UI Light";
+                position: absolute;
+                top: 870px;
+                right: 50px;
+                width: 650px;
+                height:300px;
+                color: rgb(200, 200, 200);
+                opacity:0;
+            }
+            #greybox {
+                position:absolute;
+                right:20px;
+                top:920px;
+                background:rgba(100, 100, 100, 255);
+                width:700px;
+                height:50px;
+                opacity:0;
+                border: 8px outset rgba(200, 200, 200, 255);
+                border-radius:10px;
+            }
+            #infotoggle {
+                position:absolute;
+                left:20px;
+                bottom:60px;
+                display:none;
+            }
+            #backbutton {
+                position:absolute;
+                left:20px;
+                top:20px;
+                display:none;
+            }
+            #orbitbutton {
+                position:absolute;
+                left:20px;
+                bottom:20px;
+                display:block;
+            }
+            #indicatorbutton {
+                position:absolute;
+                left:20px;
+                bottom:40px;
+                display:block;
+            }
         </style>
     </head>
     <body>
@@ -130,10 +90,13 @@
      light years)<br>• Galactical Orbit Time - ~250,000,000 earth years<br>• Rotation Time - 24.47 earth days
     </h3>
         <h5 id="infotext"></h5>
+
+        <!--
         <hr id="line" size="5px">
         <div id="upLine1"></div>
         <div id="upLine2"></div>
         <h1 id="scaleText"></h1>
+        -->
 
         <script src="animation.js" type="module"></script>
         <script src="infotext.js"></script>
