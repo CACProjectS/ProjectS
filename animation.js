@@ -420,7 +420,6 @@ function animate() {
         logoText.style.fontSize = innerWidth/10 + "px";
         //logoText.style.top = String((window.innerHeight/2))+"px";
         logoText.style.top = String(parseInt(logoImage.style.top.substring(0, parsepx(logoImage.style.top)))+260)+"px";
-        logoText.style.left = String((window.innerWidth/2)-logoText.style.fontSize.substring(0, parsepx(logoText.style.fontSize))*1.75)+"px";
         if (titleScreenVars.titleState === 'up') {
             titlePage.style.top = String(parseInt(titlePage.style.top.substring(0, parsepx(titlePage.style.top))) - titleScreenVars.titleIncRate)+"px";
             logoImage.style.top = String(parseInt(logoImage.style.top.substring(0, parsepx(logoImage.style.top))) - titleScreenVars.titleIncRate)+"px";
