@@ -7,7 +7,8 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 var state = 'view';
-const detectr = 20;
+var viewPlanet;
+const detectr = 8;
 
 // Set up scene
 var scene = new THREE.Scene();
@@ -20,7 +21,7 @@ const zAxis = new THREE.Vector3(0, 0, 1);
 
 
 (function() {
-    var dist = 2;
+    var dist = 5;
     var theta;
     var phi;
     var light;
@@ -28,7 +29,7 @@ const zAxis = new THREE.Vector3(0, 0, 1);
         theta = Math.random() * Math.PI * 2;
         phi = Math.random() * Math.PI;
 
-        var light = new THREE.PointLight(0xffffff, 0.5, 10000);
+        var light = new THREE.PointLight(0xffffff, 0.2, 10000, 2);
         light.position.set(0, 0, dist);
         light.position.applyAxisAngle(xAxis, theta);
         light.position.applyAxisAngle(yAxis, phi);
@@ -38,7 +39,7 @@ const zAxis = new THREE.Vector3(0, 0, 1);
 })()
 
 const whratio = window.innerWidth/window.innerHeight;
-var camera = new THREE.PerspectiveCamera(40,window.innerWidth/window.innerHeight, 0.01, 10000000);
+var camera = new THREE.PerspectiveCamera(40,window.innerWidth/window.innerHeight, 0.002, 10000000);
 var cameraStart = new THREE.Vector3(10500, -2500, 1000);
 camera.position.copy(cameraStart);
 //camera.up = new THREE.Vector3(-0.75, -0.1, 1);
@@ -61,15 +62,15 @@ var zoomViewStart;
 var zoomViewEnd;
 var zoomViewCurr;
 var zoomViewDifferential = new THREE.Vector3(0, 0, 0);
-var zoomIn = true;
 
 var solarSystem = [
     {
         name: 'Sun',
         diameter: 864938, // in miles
+        diaText: 'Diameter - 864,938 miles',
         dist: 0, // in miles
         distText: 'Distance from center of Milky Way - 8 kiloparsecs (26092.48 light years)',
-        orbit: 0, // in days
+        orbit: 1, // in days
         orbitText: 'Galactical Orbit Time - ~250,000,000 earth years',
         rotation: 24.47, // in days
         rotationText: 'Rotation Time - 24.47 earth days',
@@ -77,6 +78,7 @@ var solarSystem = [
     }, {
         name: 'Mercury',
         diameter: 3030,
+        diaText: 'Diameter - 3,030 miles',
         dist: 32311302,
         distText: "Distance from Sun - 52.2 million km (32,311,302 miles)",
         orbit: 88,
@@ -87,6 +89,7 @@ var solarSystem = [
     }, {
         name: 'Venus',
         diameter: 7520,
+        diaText: 'Diameter - 7,520 miles',
         dist: 64063370,
         distText: "Distance from Sun - 108.1 million km (64,063,370 miles)",
         orbit: 225,
@@ -97,6 +100,7 @@ var solarSystem = [
     }, {
         name: 'Earth',
         diameter: 7926,
+        diaText: 'Diameter - 7,926 miles',
         dist: 91465840,
         distText: "Distance from Sun - 147.2 million km (91,465,840 miles)",
         orbit: 365,
@@ -107,6 +111,7 @@ var solarSystem = [
     }, {
         name: 'Mars',
         diameter: 4222,
+        diaText: 'Diameter - 4,222 miles',
         dist: 135334646,
         distText: "Distance from Sun - 217.8 million km (135,334,646 miles)",
         orbit: 687,
@@ -117,6 +122,7 @@ var solarSystem = [
     }, {
         name: 'Jupiter',
         diameter: 88846,
+        diaText: 'Diameter - 88,846 miles',
         dist: 478890778,
         distText: "Distance from Sun - 770.7 million km (489,890,778 miles)",
         orbit: 4380,
@@ -127,6 +133,7 @@ var solarSystem = [
     }, {
         name: 'Saturn',
         diameter: 37449,
+        diaText: 'Diameter - 37,449 miles',
         dist: 886696691,
         distText: "Distance from Sun - 1.427 billion km (886,696,691 miles)",
         orbit: 10585,
@@ -137,6 +144,7 @@ var solarSystem = [
     }, {
         name: 'Uranus',
         diameter: 31584,
+        diaText: 'Diameter - 31,584 miles',
         dist: 1710013521,
         distText: "Distance from Sun - 2.752 billion km (1,710,013,521 miles)",
         orbit: 30660,
@@ -147,6 +155,7 @@ var solarSystem = [
     }, {
         name: 'Neptune',
         diameter: 30598,
+        diaText: 'Diameter - 30,598 miles',
         dist: 2814190130,
         distText: "Distance from Sun - 4.529 billion km (2,814,190,130 miles)",
         orbit: 60225,
@@ -172,6 +181,7 @@ var orbitColor = 0x007f3f;
             orbitGeometry = new THREE.CircleGeometry(setup.dist / 389293, 5000);
             orbitGeometry.vertices[0] = orbitGeometry.vertices[orbitGeometry.vertices.length - 1];
             orbit = new THREE.Line(orbitGeometry, orbitMaterial);
+            orbit.visible = false;
 
             orbits.push(orbit);
             scene.add(orbit);
@@ -182,23 +192,43 @@ var orbitColor = 0x007f3f;
 var currPlanet = new THREE.Scene();
 scene.add(currPlanet);
 
-var loading = true;
+var indicator_geo = new THREE.SphereGeometry(50, 20, 20);
+var indicator_green = new THREE.MeshBasicMaterial({ color: orbitColor });
+var indicator_red = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+
+var loadingMax = solarSystem.length + 1;
+var loadingCurr = 0;
+function loaded() {
+    return loadingCurr >= loadingMax;
+}
 (function() {
     let loader = new GLTFLoader();
     loader.load('./CAC Planets/Milky Way/scene.gltf', function(draw) {
-        var bg = draw.scene.children[0];
-        bg.scale.set(100, 100, 100);
+        draw.scene.scale.multiplyScalar(100);
 
-        //scene.add(draw.scene);
+        draw.scene.rotation.x += Math.PI / 2;
+        draw.scene.rotation.y += Math.PI / 2;
+        draw.scene.rotation.z += Math.PI / 2;
+
+        scene.add(draw.scene);
+        loadingCurr ++;
     });
     loader.load('./CAC Planets/Sun/scene.gltf', function(draw){
         var sun = draw.scene.children[0];
         var scale = 0.09639;
         sun.scale.set(scale, scale, scale);
 
+        sun.rotation.x += Math.PI / 2;
+        sun.rotation.z += Math.PI / 2;
+
         solarSystem[0].model = draw.scene;
 
-        //scene.add(draw.scene);
+        scene.add(draw.scene);
+
+        solarSystem[0].indicator = new THREE.Mesh(indicator_geo, indicator_green);
+        solarSystem[0].indicator.position.copy(solarSystem[0].model.position);
+        scene.add(solarSystem[0].indicator);
+        loadingCurr ++;
     });
 
     var planet;
@@ -207,40 +237,61 @@ var loading = true;
         return function(draw) {
             draw.scene.position.set(planet.dist / 389293, 0, 0);
 
+            var theta = Math.random() * Math.PI * 2;
+
+            draw.scene.position.applyAxisAngle(zAxis, theta);
+
             var obj = draw.scene.children[0];
             var scale = 0.00000011187 * planet.diameter;
             obj.scale.set(scale, scale, scale);
 
             obj.rotation.x += Math.PI / 2;
             obj.rotation.z += Math.PI / 2;
-            obj.position.set(-scale * 0.9, -scale * 0.95, -scale * 0.9);
+            if (planet.name != 'Saturn') {
+                obj.position.set(-scale * 0.915, -scale * 0.99, -scale * 0.9);
+            }
 
             solarSystem[count].model = draw.scene;
             scene.add(draw.scene);
+
+            // Add the indicator
+            solarSystem[count].indicator = new THREE.Mesh(indicator_geo, indicator_green);
+            solarSystem[count].indicator.position.copy(solarSystem[count].model.position);
+            solarSystem[count].indicator.visible = false;
+            scene.add(solarSystem[count].indicator);
+
+            loadingCurr ++;
         }
     }
     for (var i = 1; i < solarSystem.length; i ++) {
         planet = solarSystem[i];
         loader.load('./CAC Planets/' + planet.name + '/scene.gltf', makeModelFunc(i));
     }
-    loading = false;
-}) ()
+}) ();
+
 
 var cameraVector = camera.getWorldDirection(cameraVector);
 
 function startZoom(planet) {
-    zoomPosStart = new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
+    zoomPosStart = camera.position.clone();
     zoomPosEnd = planet.model.position.clone();
-    zoomViewStart = new THREE.Vector3(0, 0, 0);
+    zoomViewStart = origin.clone();
     zoomViewEnd = planet.model.position.clone();
-    zoomViewCurr = new THREE.Vector3(0, 0, 0);
-
-    zoomIn = true;
+    zoomViewCurr = origin.clone();
 
     document.getElementById('planetname').innerHTML = planet.name;
+
+    var bullets = ['dia', 'dist', 'orbit', 'rotation'];
+    document.getElementById('bulletpoints').innerHTML = '';
+    for (var i = 0; i < bullets.length; i ++) {
+        document.getElementById('bulletpoints').innerHTML += '• ' + planet[bullets[i] + 'Text'] + '<br>';
+    }
+
     document.getElementById('infotext').innerHTML = planet.text;
 
-    state = 'zoom';
+    infoText(650, 700, 10);
+
+    state = 'zoomIn';
 }
 function toScreenPosition(obj, camera) {
     var vector = new THREE.Vector3();
@@ -262,14 +313,14 @@ function toScreenPosition(obj, camera) {
 
 };
 function dist2d(x1, y1, x2, y2) {
-    return Math.sqrt(Math.pow(x1 - x2, 2), Math.pow(y1 - y2, 2));
+    return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
 };
 function mouseDist(x, y) {
     return dist2d(event.clientX, event.clientY, x, y);
 }
 
 document.addEventListener('click', function() {
-    if (!loading && state == 'view') {
+    if (loaded() && state == 'view') {
         var planet;
         var pos;
         for (var i = 0; i < solarSystem.length; i ++) {
@@ -278,69 +329,159 @@ document.addEventListener('click', function() {
             if (mouseDist(pos.x, pos.y) < detectr) {
                 planet.model.visible = true;
                 startZoom(planet);
-                //planet.model.scale.set(1, 1, 1);
+
+                viewPlanet = i;
+                indicatorStatus = false;
+
+                document.getElementById('indicatorbutton').style.display = 'none';
                 break;
             }
         }
     }
 });
 document.addEventListener('mousemove', function() {
-    if (!loading && state == 'view') {
+    if (loaded() && state == 'view') {
         var planet;
         var pos;
         for (var i = 0; i < solarSystem.length; i ++) {
             planet = solarSystem[i];
             pos = toScreenPosition(planet.model, camera);
-            if (mouseDist(pos.x, pos.y) < detectr) {
-                //planet.model.scale.set(100000, 100000, 100000);
-                break;
+            if (mouseDist(pos.x, pos.y) > detectr) {
+                planet.indicator.material = indicator_green;
             } else {
-                //planet.model.scale.set(1, 1, 1);
+                planet.indicator.material = indicator_red;
+                for (var j = i + 1; j < solarSystem.length; j ++) {
+                    solarSystem[j].indicator.material = indicator_green;
+                }
+                break;
             }
         }
     }
 });
 
+function indicatorsOff() {
+    for (var i = 0; i < solarSystem.length; i ++) {
+        solarSystem[i].indicator.visible = false;
+    }
+}
+function indicatorsOn() {
+    for (var i = 0; i < solarSystem.length; i ++) {
+        solarSystem[i].indicator.visible = true;
+    }
+}
+
+function orbitsOff() {
+    for (var i = 0; i < orbits.length; i ++) {
+        orbits[i].visible = false;
+    }
+}
+function orbitsOn() {
+    for (var i = 0; i < orbits.length; i ++) {
+        orbits[i].visible = true;
+    }
+}
+
 function bellCurve(curr, max) {
-    var map = (curr / max) * 6 - 3;
+    var map = (curr / max) * 9 - 4;
     return Math.exp(-map * map) / Math.sqrt(Math.PI);
 }
+
+const timeMultiplier = 0.1;
 function animate() {
-    //for (var obj in 
-
-    if (state == 'zoom') {
-        controls.enableRotate = false;
-        zoomFrames ++;
-        zoomCounter = bellCurve(zoomFrames, maxZoomFrames);
-
-        zoomPosDifferential.subVectors(zoomPosEnd, zoomPosStart);
-        zoomPosDifferential.multiplyScalar(zoomCounter * 6 / maxZoomFrames * /*0.9995*/1.00002);
-        zoomViewDifferential.subVectors(zoomViewEnd, zoomViewStart);
-        zoomViewDifferential.multiplyScalar(zoomCounter * 6 / maxZoomFrames);
-        
-        camera.position.add(zoomPosDifferential);
-        zoomViewCurr.add(zoomViewDifferential);
-
-        controls.target = zoomViewCurr;
-
-        if (zoomFrames >= maxZoomFrames) {
-            zoomViewCurr.copy(zoomViewEnd);
-
-            //camera.position.copy(zoomPosEnd);
-            controls.target = zoomViewEnd;
-
-            zoomFrames = 0;
-            controls.enableRotate = true;
-
-            state = 'viewPlanet';
-            if (zoomIn) {
-                infoText(830, 700);
+    if (loaded()) {
+        if (state == 'view') {
+            controls.enableZoom = false;
+            for (var i = 0; i < solarSystem.length; i ++) {
+                solarSystem[i].model.position.applyAxisAngle(zAxis, timeMultiplier/solarSystem[i].orbit);
+                solarSystem[i].indicator.position.applyAxisAngle(zAxis, timeMultiplier/solarSystem[i].orbit);
             }
+        } else if (state == 'zoomIn') {
+            controls.enableRotate = false;
+            zoomFrames ++;
+            zoomCounter = bellCurve(zoomFrames, maxZoomFrames);
 
-            zoomIn = !zoomIn;
+            zoomPosDifferential.subVectors(zoomPosEnd, zoomPosStart);
+            zoomPosDifferential.multiplyScalar(zoomCounter * 9 / maxZoomFrames * (viewPlanet == 0 ? 0.9995 : 0.999995));
+            zoomViewDifferential.subVectors(zoomViewEnd, zoomViewStart);
+            zoomViewDifferential.multiplyScalar(zoomCounter * 9 / maxZoomFrames);
+            
+            camera.position.add(zoomPosDifferential);
+            zoomViewCurr.add(zoomViewDifferential);
+
+            controls.target = zoomViewCurr;
+
+            if (zoomFrames >= maxZoomFrames) {
+                controls.target.copy(zoomViewEnd);
+
+                zoomFrames = 0;
+                controls.enableRotate = true;
+                controls.enableZoom = true;
+
+                state = 'viewPlanet';
+
+                document.getElementById('infotoggle').style.display = 'block';
+                document.getElementById('backbutton').style.display = 'block';
+            }
+        } else if (state == 'zoomOut') {
+            controls.enableRotate = false;
+            zoomFrames ++;
+            zoomCounter = bellCurve(zoomFrames, maxZoomFrames);
+
+            zoomPosDifferential.subVectors(zoomPosEnd, zoomPosStart);
+            zoomPosDifferential.multiplyScalar(zoomCounter * 9 / maxZoomFrames);
+            zoomViewDifferential.subVectors(zoomViewEnd, zoomViewStart);
+            zoomViewDifferential.multiplyScalar(zoomCounter * 9 / maxZoomFrames);
+            
+            camera.position.add(zoomPosDifferential);
+            zoomViewCurr.add(zoomViewDifferential);
+
+            controls.target = zoomViewCurr;
+
+            if (zoomFrames >= maxZoomFrames) {
+                camera.position.copy(zoomPosEnd);
+                controls.target.copy(zoomViewEnd);
+
+                zoomFrames = 0;
+                controls.enableRotate = true;
+
+                document.getElementById('indicatorbutton').style.display = 'block';
+                indicatorStatus = true;
+
+                state = 'view';
+            }
+        } else if (state == 'viewPlanet' && back) {
+            back = false;
+
+            state = 'zoomOut';
+            document.getElementById('infotoggle').style.display = 'none';
+            document.getElementById('backbutton').style.display = 'none';
+
+            zoomPosStart = camera.position.clone();
+            zoomPosEnd = cameraStart.clone();
+            zoomViewStart = controls.target.clone();
+            zoomViewEnd = origin.clone();
+            zoomViewCurr = controls.target.clone();
+
+            if (infoBoxState == 1) {
+                infoText(650, 700, 10);
+            }
         }
-    }
-    else if (state == 'view') {
+
+        if (state != 'view') {
+            solarSystem[viewPlanet].model.rotation.z += timeMultiplier/solarSystem[viewPlanet].rotation;
+        }
+
+        if (indicatorStatus) {
+            indicatorsOn();
+        } else {
+            indicatorsOff();
+        }
+
+        if (orbitStatus) {
+            orbitsOn();
+        } else {
+            orbitsOff();
+        }
     }
     renderer.render( scene, camera );
     requestAnimationFrame( animate );
