@@ -10,6 +10,26 @@
                 position:fixed;
                 background:black;
             }
+            #logo {
+                position:absolute;
+                width:600px;
+                z-index:3;
+            }
+            #titleScreen {
+                position:absolute;
+                top:0px;
+                left:0px;
+                width:500px;
+                height:500px;
+                background:rgba(50, 50, 50);
+                z-index:0;
+            }
+            #titlescreentext {
+                position:absolute;
+                font-family: "Segoe UI Light";
+                font-size: 150px;
+                color:rgba(200, 200, 200);
+            }
             #planetname {
                 text-align:left;
                 font-family:"Segoe UI Light";
@@ -91,67 +111,22 @@
     </h3>
         <h5 id="infotext"></h5>
 
-        <!--
-        <hr id="line" size="5px">
-        <div id="upLine1"></div>
-        <div id="upLine2"></div>
-        <h1 id="scaleText"></h1>
-        -->
-
         <script src="animation.js" type="module"></script>
         <script src="infotext.js"></script>
         <script>
             var back = false;
             var indicatorStatus = false;
             var orbitStatus = false;
-            /*
-            var scaleStatus = false;
-
-            function scaleOn() {
-                document.getElementById('line').style.display = 'block';
-                document.getElementById('upLine1').style.display = 'block';
-                document.getElementById('upLine2').style.display = 'block';
-                document.getElementById('scaleText').style.display = 'block';
-            }
-            function scaleOff() {
-                document.getElementById('line').style.display = 'none';
-                document.getElementById('upLine1').style.display = 'none';
-                document.getElementById('upLine2').style.display = 'none';
-                document.getElementById('scaleText').style.display = 'none';
-            }
-            function toggleScale() {
-                scaleStatus = !scaleStatus;
-                if (scaleStatus) {
-                    scaleOn();
-                } else {
-                    scaleOff();
-                }
-            }*/
         </script>
-        <!--
-        <script>
-            horizLine = document.getElementById("line");
-            horizLine.setAttribute("width", String(innerWidth/4)+"px");
-            horizLine.style.left = String(innerWidth/8)+'px';
-            horizLine.style.bottom = String(innerHeight/4)+"px";
-            upLine1 = document.getElementById("upLine1");
-            upLine1.style.left = String(innerWidth/8)+'px';
-            upLine1.style.bottom = String(innerHeight/4+2.5)+"px";
-            upLine2 = document.getElementById("upLine2");
-            upLine2.style.left = String(innerWidth*0.375)+'px';
-            upLine2.style.bottom = String(innerHeight/4+2.5)+"px";
-            scalingText = document.getElementById("scaleText");
-            scalingText.style.left = String(innerWidth/8)+"px";
-            scalingText.style.bottom = String(innerWidth/4-175)+"px";
-            scalingText.style.width = String(innerWidth/4)+"px";
-        </script>
-        -->
 
         <button type="button" id="infotoggle" onclick="infoText(650, 700, 10)">Toggle Info</button>
         <button type="button" id="backbutton" onclick="back = true">Back</button>
 
-        <!--<button type="button" id="scalebutton" onclick="toggleScale()">Toggle Scale</button>-->
         <button type="button" id="orbitbutton" onclick="orbitStatus = !orbitStatus">Toggle Orbits</button>
         <button type="button" id="indicatorbutton" onclick="indicatorStatus = !indicatorStatus">Toggle Indicators</button>
+
+        <div id="titleScreen"></div>
+        <img src="ProjectSLogo.png" id="logo">
+        <h1 id="titlescreentext">Project S</h1>
     </body>
 </html>
