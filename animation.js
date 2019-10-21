@@ -410,7 +410,7 @@ function animate() {
         var titlePage = document.getElementById("titleScreen");
         titlePage.style.width = window.innerWidth+"px";
         titlePage.style.height = String(window.innerHeight+1)+"px";
-        titlePage.style.top = "1px";
+        titlePage.style.top = "0px";
         var logoImage = document.getElementById("logo");
         logoImage.style.height = String(window.innerHeight/3)+"px";
         logoImage.style.width = String(window.innerWidth/3)+"px";
