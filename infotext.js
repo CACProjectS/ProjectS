@@ -59,8 +59,8 @@ var infoTextUp = function(x, w) {
         if (infoBox.style.height.substring(0, 3) <= 700) {
             infoBox.style.height = String(parseInt(infoBox.style.height.substring(0, 3)) + 7) + "px";
         }
-        if (infoBox.style.opacity < .5) {
-            infoBox.style.opacity = String(parseFloat(infoBox.style.opacity)+0.005);
+        if (infoBox.style.opacity < .9) {
+            infoBox.style.opacity = String(parseFloat(infoBox.style.opacity)+0.009);
         }
         if (textBlock.style.opacity < 1) {
             textBlock.style.opacity = String(parseFloat(textBlock.style.opacity)+0.01);
@@ -97,8 +97,8 @@ var infoTextDown = function(x, w) {
     bulletPoints.style.top = "330px";
     infoBox.style.top = "130px";
     infoBox.style.height = "700px";
-    infoBox.style.opacity = ".5";
-    textBlock.style.top = "455px";
+    infoBox.style.opacity = ".9";
+    textBlock.style.top = String(y+335)+"px";
     function step() {
         if (bulletPoints.style.top.substring(0, 3) <= 992) {
             bulletPoints.style.top = String(parseInt(bulletPoints.style.top.substring(0, 3)) + 7) + "px";
@@ -128,7 +128,7 @@ var infoTextDown = function(x, w) {
             }
         }
         if (infoBox.style.opacity > 0) {
-            infoBox.style.opacity = String(parseFloat(infoBox.style.opacity)-0.005);
+            infoBox.style.opacity = String(parseFloat(infoBox.style.opacity)-0.009);
         }
         if (textBlock.style.opacity > 0) {
             textBlock.style.opacity = String(parseFloat(textBlock.style.opacity)-0.01);

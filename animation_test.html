@@ -10,53 +10,117 @@
                 position:fixed;
                 background:black;
             }
-            #planetname {
-                text-align:left;
-                font-family:"Segoe UI Light";
-                font-size:100px;
-                position: absolute;
-                top: 470px;
-                right: 50px;
-                width: 650px;
-                height:300px;
-                color: rgba(200, 200, 200);
-                opacity:0;
-            }
-            #bulletpoints {
-                text-align:left;
-                font-family:"Segoe UI Light";
-                font-size:20px;
-                position: absolute;
-                top: 470px;
-                right: 50px;
-                width: 650px;
-                height:300px;
-                color: rgba(0, 0, 0, 0);
-                opacity:0;
-            }
-            #infotext {
-                text-align:center;
-                font-size:18px;
-                font-family:"Segoe UI Light";
-                position: absolute;
-                top: 870px;
-                right: 50px;
-                width: 650px;
-                height:300px;
-                color: rgba(200, 200, 200, 0);
-                opacity:0;
-            }
-            #greybox {
-                position:absolute;
-                right:20px;
-                top:110px;
-                background:rgba(100, 100, 100, 255);
-                width:700px;
-                height:50px;
-                opacity:0;
-                border: 8px outset rgba(200, 200, 200, 255);
-                border-radius:10px;
-            }
+        #planetname {
+            text-align:left;
+            font-family:"Segoe UI Light";
+            font-size:100px;
+            position: absolute;
+            top: 470px;
+            right: 50px;
+            width: 650px;
+            height:300px;
+            color: rgba(200, 200, 200);
+            opacity:0;
+        }
+        #bulletpoints {
+            text-align:left;
+            font-family:"Segoe UI Light";
+            font-size:20px;
+            position: absolute;
+            top: 470px;
+            right: 50px;
+            width: 650px;
+            height:300px;
+            color: rgba(200, 200, 200, 255);
+            opacity:0;
+        }
+        #infotext {
+            text-align:center;
+            font-size:18px;
+            font-family:"Segoe UI Light";
+            position: absolute;
+            top: 870px;
+            right: 50px;
+            width: 650px;
+            height:300px;
+            color: rgb(200, 200, 200);
+            opacity:0;
+        }
+        #greybox {
+            position:absolute;
+            right:20px;
+            top:920px;
+            background:rgba(100, 100, 100, 255);
+            width:700px;
+            height:50px;
+            opacity:0;
+            border: 8px outset rgba(200, 200, 200, 255);
+            border-radius:10px;
+        }
+        #infotoggle {
+            position:absolute;
+            left:20px;
+            bottom:60px;
+            display:none;
+        }
+        #backbutton {
+            position:absolute;
+            left:20px;
+            top:20px;
+            display:none;
+        }
+        <!--#scalebutton {
+            position:absolute;
+            right:20px;
+            top:20px;
+            display:block;
+        }-->
+        #orbitbutton {
+            position:absolute;
+            left:20px;
+            bottom:20px;
+            display:block;
+        }
+        #indicatorbutton {
+            position:absolute;
+            left:20px;
+            bottom:40px;
+            display:block;
+        }
+        <!--
+        #line {
+            position:absolute;
+            left:"";
+            bottom:"";
+            background:rgba(225, 225, 225);
+            display:none;
+        }
+        #upLine1 {
+            position:absolute;
+            height:10px;
+            left:"";
+            bottom:"";
+            border: 2.5px solid rgba(225, 225, 225);
+            display:none;
+        }
+        #upLine2 {
+            position:absolute;
+            height:10px;
+            left:"";
+            bottom:"";
+            border: 2.5px solid rgba(225, 225, 225);
+            display:none;
+        }
+        #scaleText {
+            position:absolute;
+            font-family:"Segoe UI Light";
+            left:"";
+            bottom:"";
+            color:rgba(225, 225, 225);
+            width:"";
+            text-align:center;
+            display:none;
+        }-->
         </style>
     </head>
     <body>
@@ -65,8 +129,66 @@
         <h3 id="bulletpoints">• Diameter - 864,938 miles (1,391,983 kilometers)<br>• Distance from center of Milky Way - 8 kiloparsecs (26092.48
      light years)<br>• Galactical Orbit Time - ~250,000,000 earth years<br>• Rotation Time - 24.47 earth days
     </h3>
-        <h5 id="infotext">The Sun, whose wording comes from the Old and Middle English “sonne” / ”sunne”, is the center of our Solar System, and by far the closest star to Earth. There have been various depictions of the sun throughout ancient history, with some notable depictions being Ra, the sun god in Egyptian mythology, and Amaterasu, the sun god in Shintoism. The Sun is a yellow dwarf and is a type G star. Its heat is immense, with surface temperatures reaching 5,700 C, while the coronal temperature (gas above the surface) can reach up to 1,000,000 C. The Sun is composed of several layers: the corona, the chromosphere, the photosphere, the convection zone, the radiative zone, and the core. As for elemental composition, the Sun is made up of around 38.5% hydrogen, 60% helium, and 1.5% of various heavier elements. Sunlight also contains ultraviolet radiation, which heavily affects many aspects of life. As it houses Earth, it is the only star currently known to house life within its gravitational pull. </h5>
-        <script src="animation.js" type="module" ></script>
+        <h5 id="infotext"></h5>
+        <hr id="line" size="5px">
+        <div id="upLine1"></div>
+        <div id="upLine2"></div>
+        <h1 id="scaleText"></h1>
+
+        <script src="animation.js" type="module"></script>
         <script src="infotext.js"></script>
+        <script>
+            var back = false;
+            var indicatorStatus = false;
+            var orbitStatus = false;
+            /*
+            var scaleStatus = false;
+
+            function scaleOn() {
+                document.getElementById('line').style.display = 'block';
+                document.getElementById('upLine1').style.display = 'block';
+                document.getElementById('upLine2').style.display = 'block';
+                document.getElementById('scaleText').style.display = 'block';
+            }
+            function scaleOff() {
+                document.getElementById('line').style.display = 'none';
+                document.getElementById('upLine1').style.display = 'none';
+                document.getElementById('upLine2').style.display = 'none';
+                document.getElementById('scaleText').style.display = 'none';
+            }
+            function toggleScale() {
+                scaleStatus = !scaleStatus;
+                if (scaleStatus) {
+                    scaleOn();
+                } else {
+                    scaleOff();
+                }
+            }*/
+        </script>
+        <!--
+        <script>
+            horizLine = document.getElementById("line");
+            horizLine.setAttribute("width", String(innerWidth/4)+"px");
+            horizLine.style.left = String(innerWidth/8)+'px';
+            horizLine.style.bottom = String(innerHeight/4)+"px";
+            upLine1 = document.getElementById("upLine1");
+            upLine1.style.left = String(innerWidth/8)+'px';
+            upLine1.style.bottom = String(innerHeight/4+2.5)+"px";
+            upLine2 = document.getElementById("upLine2");
+            upLine2.style.left = String(innerWidth*0.375)+'px';
+            upLine2.style.bottom = String(innerHeight/4+2.5)+"px";
+            scalingText = document.getElementById("scaleText");
+            scalingText.style.left = String(innerWidth/8)+"px";
+            scalingText.style.bottom = String(innerWidth/4-175)+"px";
+            scalingText.style.width = String(innerWidth/4)+"px";
+        </script>
+        -->
+
+        <button type="button" id="infotoggle" onclick="infoText(650, 700, 10)">Toggle Info</button>
+        <button type="button" id="backbutton" onclick="back = true">Back</button>
+
+        <!--<button type="button" id="scalebutton" onclick="toggleScale()">Toggle Scale</button>-->
+        <button type="button" id="orbitbutton" onclick="orbitStatus = !orbitStatus">Toggle Orbits</button>
+        <button type="button" id="indicatorbutton" onclick="indicatorStatus = !indicatorStatus">Toggle Indicators</button>
     </body>
 </html>

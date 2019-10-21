@@ -305,6 +305,12 @@ function bellCurve(curr, max) {
     var map = (curr / max) * 6 - 3;
     return Math.exp(-map * map) / Math.sqrt(Math.PI);
 }
+function camDist() {
+    var diff = camera.position.clone().sub(controls.target);
+    return Math.sqrt(Math.pow(diff.x, 2) + Math.pow(diff.y, 2) + Math.pow(diff.z, 2));
+};
+
+const timeMultiplier = 0.1;
 function animate() {
     //for (var obj in 
 
@@ -345,5 +351,7 @@ function animate() {
     renderer.render( scene, camera );
     requestAnimationFrame( animate );
 	controls.update();
+
+    //document.getElementById('scaleText').innerHTML = '≈' + (camDist() * innerWidth * 0.001205 * 389293).toString().substring(0, 10) + ' miles';
 }
 animate();
