@@ -8,11 +8,29 @@
     <body>
     <canvas id="myCanvas" width=1000 height=600></canvas>
     <style>
-        #infotext {
-            position:"absolute";
-            top:300px;
-            left:300px;
-            color:black;
+        body {
+            position:fixed;
+            background:white;
+        }
+        #logo {
+            position:absolute;
+            width:600px;
+            z-index:3;
+        }
+        #titleScreen {
+            position:absolute;
+            top:1px;
+            left:0px;
+            width:500px;
+            height:500px;
+            background:rgba(50, 50, 50);
+            z-index:0;
+        }
+        #titlescreentext {
+            position:absolute;
+            font-family: "Segoe UI Light";
+            font-size: 150px;
+            color:rgba(200, 200, 200);
         }
         html, body {
             width:100%;
@@ -20,43 +38,52 @@
             padding:0;
             margin:0;
         }
-        #canvas {
-            width:100%;
-            height:100%;
-        }
     </style>
-    <h5 id="infotext">Lorem ipsum dolor sit amet, ...</h5>
+    <div id="titleScreen"></div>
+    <img src="ProjectSLogo.png" id="logo">
+    <h1 id="titlescreentext">Project S</h1>
     <script>
-        var canvas = document.getElementById('myCanvas');
-        var ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        var parsepx = function(text) {
+            for (var i = 0; i < text.length; i++) {
+                if (text[i] === "p") {
+                    return i;
+                }
+            }
+        };
+        var titlePage = document.getElementById("titleScreen");
+        titlePage.style.width = window.innerWidth+"px";
+        titlePage.style.height = String(window.innerHeight+1)+"px";
+        titlePage.style.top = "1px";
+        var logoImage = document.getElementById("logo");
+        logoImage.style.height = String(window.innerHeight/3)+"px";
+        logoImage.style.width = String(window.innerWidth/3)+"px";
+        logoImage.style.top = String((window.innerHeight/2)-parseInt(logoImage.style.height.substring(0, parsepx(logoImage.style.height))/2)-100)+"px";
+        logoImage.style.left = String((window.innerWidth/2)-parseInt(logoImage.style.width.substring(0, parsepx(logoImage.style.width))/2))+"px";
+        var logoText = document.getElementById("titlescreentext");
+        logoText.style.fontSize = "150px";
+        logoText.style.top = String((window.innerHeight/2))+"px";
+        logoText.style.left = String((window.innerWidth/2)-logoText.style.fontSize.substring(0, parsepx(logoText.style.fontSize))*1.75)+"px";
+        console.log(logoText.style.left);
         var titleScreenVars = {
             titleState: '',
-            titleScreenY: -1,
             titleIncRate: 1,
         };
         var beginMove = function() {
             titleScreenVars.titleState = 'up';
         };
-        function rect(x, y, w, h, color, str) {
-            ctx.beginPath();
-            ctx.fillStyle = color;
-            ctx.rect(x, y, w, h);
-            ctx.fill();
-            ctx.closePath();
-        };
-        canvas.addEventListener('click', beginMove);
         function step() {
             if (titleScreenVars.titleState === 'up') {
-                titleScreenVars.titleScreenY-=Math.abs((titleScreenVars.titleScreenY - 1) * 0.04);
+                console.log(logoText.style.top);
+                titlePage.style.top = String(parseInt(titlePage.style.top.substring(0, parsepx(titlePage.style.top))) - titleScreenVars.titleIncRate)+"px";
+                logoImage.style.top = String(parseInt(logoImage.style.top.substring(0, parsepx(logoImage.style.top))) - titleScreenVars.titleIncRate)+"px";
+                logoText.style.top = String(parseInt(logoImage.style.top.substring(0, parsepx(logoImage.style.top)))+260)+"px";
+                titleScreenVars.titleIncRate *= 1.02;
             }
-            rect(0, 0, canvas.width, canvas.height, "#FFFFFF");
-            rect(0, titleScreenVars.titleScreenY, canvas.width, canvas.height, "#202020");
             window.requestAnimationFrame(step);
         }
-        window.requestAnimationFrame(step);
         
+        window.requestAnimationFrame(step);
+        window.addEventListener("click", beginMove);
         var textWindow = function() {
             
         }

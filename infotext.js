@@ -51,8 +51,8 @@ var infoTextUp = function(x, w, y) {
             bulletPoints.style.top = String(parseInt(infoBox.style.top.substring(0, parsepx(infoBox.style.top)))+200)+"px";
             planetName.style.top = String(parseInt(infoBox.style.top.substring(0, parsepx(infoBox.style.top)))-30)+"px";
         }
-        if (infoBox.style.opacity < .5) {
-            infoBox.style.opacity = String(parseFloat(infoBox.style.opacity)+0.005);
+        if (infoBox.style.opacity < .9) {
+            infoBox.style.opacity = String(parseFloat(infoBox.style.opacity)+0.009);
         }
         if (textBlock.style.opacity < 1) {
             textBlock.style.opacity = String(parseFloat(textBlock.style.opacity)+0.01);
@@ -89,7 +89,7 @@ var infoTextDown = function(x, w, y) {
     bulletPoints.style.top = String(y+200)+"px";
     infoBox.style.top = y+"px";
     infoBox.style.height = "700px";
-    infoBox.style.opacity = ".5";
+    infoBox.style.opacity = ".9";
     textBlock.style.top = String(y+335)+"px";
     function step() {
         
@@ -105,7 +105,7 @@ var infoTextDown = function(x, w, y) {
             return;
         }
         if (infoBox.style.opacity > 0) {
-            infoBox.style.opacity = String(parseFloat(infoBox.style.opacity)-0.005);
+            infoBox.style.opacity = String(parseFloat(infoBox.style.opacity)-0.009);
         }
         if (textBlock.style.opacity > 0) {
             textBlock.style.opacity = String(parseFloat(textBlock.style.opacity)-0.01);

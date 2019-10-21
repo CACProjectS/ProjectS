@@ -42,7 +42,7 @@
         renderer.setSize(window.innerWidth,window.innerHeight);
         document.body.appendChild(renderer.domElement);
         let loader = new THREE.GLTFLoader();
-        loader.load('CAC Planets/Milky Way/scene.gltf', function(draw) {
+        loader.load('CAC Planets/Sun/scene.gltf', function(draw) {
             mercury = draw.scene.children[0];
             mercury.scale.set(5,5,5);
             scene.add(draw.scene);
