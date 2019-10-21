@@ -6,7 +6,7 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-var state = 'view';
+var state = 'title';
 var viewPlanet;
 const detectr = 8;
 
@@ -227,6 +227,7 @@ function loaded() {
 
         solarSystem[0].indicator = new THREE.Mesh(indicator_geo, indicator_green);
         solarSystem[0].indicator.position.copy(solarSystem[0].model.position);
+        solarSystem[0].indicator.visible = false;
         scene.add(solarSystem[0].indicator);
         loadingCurr ++;
     });
@@ -320,7 +321,9 @@ function mouseDist(x, y) {
 }
 
 document.addEventListener('click', function() {
-    if (loaded() && state == 'view') {
+    if (state == 'title') {
+        titleScreenVars.titleState = 'up';
+    } else if (loaded() && state == 'view') {
         var planet;
         var pos;
         for (var i = 0; i < solarSystem.length; i ++) {
@@ -391,8 +394,43 @@ function camDist() {
 };
 
 const timeMultiplier = 0.1;
+var titleScreenVars = {
+    titleState: '',
+    titleIncRate: 1.5,
+};
+var parsepx = function(text) {
+    for (var i = 0; i < text.length; i++) {
+        if (text[i] === "p") {
+            return i;
+        }
+    }
+};
 function animate() {
-    if (loaded()) {
+    if (state == 'title') {
+        var titlePage = document.getElementById("titleScreen");
+        titlePage.style.width = window.innerWidth+"px";
+        titlePage.style.height = String(window.innerHeight+1)+"px";
+        titlePage.style.top = "0px";
+        var logoImage = document.getElementById("logo");
+        logoImage.style.height = String(window.innerHeight/3)+"px";
+        logoImage.style.width = String(window.innerWidth/3)+"px";
+        logoImage.style.top = String((window.innerHeight/2)-parseInt(logoImage.style.height.substring(0, parsepx(logoImage.style.height))/2)-100)+"px";
+        logoImage.style.left = String((window.innerWidth/2)-parseInt(logoImage.style.width.substring(0, parsepx(logoImage.style.width))/2))+"px";
+        var logoText = document.getElementById("titlescreentext");
+        logoText.style.fontSize = innerWidth/10 + "px";
+        //logoText.style.top = String((window.innerHeight/2))+"px";
+        logoText.style.top = String(parseInt(logoImage.style.top.substring(0, parsepx(logoImage.style.top)))+260)+"px";
+        logoText.style.left = String((window.innerWidth/2)-logoText.style.fontSize.substring(0, parsepx(logoText.style.fontSize))*1.75)+"px";
+        if (titleScreenVars.titleState === 'up') {
+            titlePage.style.top = String(parseInt(titlePage.style.top.substring(0, parsepx(titlePage.style.top))) - titleScreenVars.titleIncRate)+"px";
+            logoImage.style.top = String(parseInt(logoImage.style.top.substring(0, parsepx(logoImage.style.top))) - titleScreenVars.titleIncRate)+"px";
+            logoText.style.top = String(parseInt(logoImage.style.top.substring(0, parsepx(logoImage.style.top)))+260)+"px";
+            titleScreenVars.titleIncRate *= 1.1;
+        }
+        if (titleScreenVars.titleIncRate > 850) {
+            state = 'view';
+        }
+    } else if (loaded()) {
         if (state == 'view') {
             controls.enableZoom = false;
             for (var i = 0; i < solarSystem.length; i ++) {
@@ -451,6 +489,9 @@ function animate() {
                 document.getElementById('indicatorbutton').style.display = 'block';
                 indicatorStatus = true;
 
+                if (solarSystem[viewPlanet].name != 'Sun') {
+                    solarSystem[viewPlanet].model.visible = false;
+                }
                 state = 'view';
             }
         } else if (state == 'viewPlanet' && back) {
