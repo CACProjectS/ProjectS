@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Project S</title>
+        <style>
+            body {
+                margin: 0;
+                position:fixed;
+                background:black;
+            }
+            #logo {
+                position:absolute;
+                width:600px;
+                z-index:3;
+            }
+            #titleScreen {
+                position:absolute;
+                top:0px;
+                left:0px;
+                width:500px;
+                height:500px;
+                background:rgba(50, 50, 50);
+                z-index:0;
+            }
+            #titlescreentext {
+                position:absolute;
+                font-family: "Segoe UI Light", "Helvetica";
+                font-size: 150px;
+                color:rgba(200, 200, 200);
+                width:100%;
+                text-align:center;
+            }
+            #planetname {
+                text-align:left;
+                font-family: "Segoe UI Light", "Helvetica";
+                font-size:100px;
+                position: absolute;
+                top: 470px;
+                right: 50px;
+                width: 650px;
+                height:300px;
+                color: rgba(200, 200, 200);
+                opacity:0;
+            }
+            #bulletpoints {
+                text-align:left;
+                font-family: "Segoe UI Light", "Helvetica";
+                font-size:20px;
+                position: absolute;
+                top: 470px;
+                right: 50px;
+                width: 650px;
+                height:300px;
+                color: rgba(200, 200, 200, 255);
+                opacity:0;
+            }
+            #infotext {
+                text-align:center;
+                font-size:18px;
+                font-family: "Segoe UI Light", "Helvetica";
+                position: absolute;
+                top: 870px;
+                right: 50px;
+                width: 650px;
+                height:300px;
+                color: rgb(200, 200, 200);
+                opacity:0;
+            }
+            #greybox {
+                position:absolute;
+                right:20px;
+                top:920px;
+                background:rgba(100, 100, 100, 255);
+                width:700px;
+                height:50px;
+                opacity:0;
+                border: 8px outset rgba(200, 200, 200, 255);
+                border-radius:10px;
+            }
+            #infotoggle {
+                position:absolute;
+                left:20px;
+                bottom:60px;
+                display:none;
+            }
+            #backbutton {
+                position:absolute;
+                left:20px;
+                top:20px;
+                display:none;
+            }
+            #orbitbutton {
+                position:absolute;
+                left:20px;
+                bottom:20px;
+                display:block;
+            }
+            #indicatorbutton {
+                position:absolute;
+                left:20px;
+                bottom:40px;
+                display:block;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="greybox"></div>
+        <h1 id="planetname">The Sun</h1>
+        <h3 id="bulletpoints">• Diameter - 864,938 miles (1,391,983 kilometers)<br>• Distance from center of Milky Way - 8 kiloparsecs (26092.48
+     light years)<br>• Galactical Orbit Time - ~250,000,000 earth years<br>• Rotation Time - 24.47 earth days
+    </h3>
+        <h5 id="infotext"></h5>
+
+        <script src="animation.js" type="module"></script>
+        <script src="infotext.js"></script>
+        <script>
+            var back = false;
+            var indicatorStatus = false;
+            var orbitStatus = false;
+        </script>
+
+        <button type="button" id="infotoggle" onclick="infoText(650, 700, 10)">Toggle Info</button>
+        <button type="button" id="backbutton" onclick="back = true">Back</button>
+
+        <button type="button" id="orbitbutton" onclick="orbitStatus = !orbitStatus">Toggle Orbits</button>
+        <button type="button" id="indicatorbutton" onclick="indicatorStatus = !indicatorStatus">Toggle Indicators</button>
+
+        <div id="titleScreen"></div>
+        <img src="ProjectSLogo.png" id="logo">
+        <h1 id="titlescreentext">Project S</h1>
+    </body>
+</html>
