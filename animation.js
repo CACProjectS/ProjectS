@@ -426,7 +426,7 @@ function animate() {
             logoText.style.top = String(parseInt(logoImage.style.top.substring(0, parsepx(logoImage.style.top)))+260)+"px";
             titleScreenVars.titleIncRate *= 1.1;
         }
-        if (titleScreenVars.titleIncRate > 850) {
+        if (titleScreenVars.titleIncRate > 1500) {
             state = 'view';
         }
     } else if (loaded()) {
