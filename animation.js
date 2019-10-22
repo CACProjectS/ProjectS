@@ -290,7 +290,7 @@ function startZoom(planet) {
 
     document.getElementById('infotext').innerHTML = planet.text;
 
-    infoText(650, 700, 10);
+    infoText(1000, screen.height/2-435, 700);
 
     state = 'zoomIn';
 }
@@ -412,9 +412,9 @@ function animate() {
         titlePage.style.height = String(window.innerHeight+1)+"px";
         titlePage.style.top = "0px";
         var logoImage = document.getElementById("logo");
-        logoImage.style.height = String(window.innerHeight/3)+"px";
+        //logoImage.style.height = String(window.innerHeight/3)+"px";
         logoImage.style.width = String(window.innerWidth/3)+"px";
-        logoImage.style.top = String((window.innerHeight/2)-parseInt(logoImage.style.height.substring(0, parsepx(logoImage.style.height))/2)-100)+"px";
+        logoImage.style.top = String((window.innerHeight/2)-logoImage.height/2-100)+"px";
         logoImage.style.left = String((window.innerWidth/2)-parseInt(logoImage.style.width.substring(0, parsepx(logoImage.style.width))/2))+"px";
         var logoText = document.getElementById("titlescreentext");
         logoText.style.fontSize = innerWidth/10 + "px";
@@ -507,7 +507,7 @@ function animate() {
             zoomViewCurr = controls.target.clone();
 
             if (infoBoxState == 1) {
-                infoText(650, 700, 10);
+                infoText(1000, screen.height/2-435, 700);
             }
         }
 

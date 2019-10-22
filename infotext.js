@@ -8,7 +8,7 @@ var parsepx = function(text) {
 
 var infoBoxState = 0;
 var currentlyMoving = false;
-var infoText = function(x, w, y) {
+var infoText = function(x, y, w) {
     if (infoBoxState === 0) {
         if (currentlyMoving === false) {
             infoTextUp(x, w, y);
