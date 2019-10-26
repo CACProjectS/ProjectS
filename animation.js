@@ -432,9 +432,11 @@ function animate() {
     } else if (loaded()) {
         if (state == 'view') {
             controls.enableZoom = false;
-            for (var i = 0; i < solarSystem.length; i ++) {
-                solarSystem[i].model.position.applyAxisAngle(zAxis, timeMultiplier/solarSystem[i].orbit);
-                solarSystem[i].indicator.position.applyAxisAngle(zAxis, timeMultiplier/solarSystem[i].orbit);
+            if (moveStatus) {
+                for (var i = 0; i < solarSystem.length; i ++) {
+                    solarSystem[i].model.position.applyAxisAngle(zAxis, timeMultiplier/solarSystem[i].orbit);
+                    solarSystem[i].indicator.position.applyAxisAngle(zAxis, timeMultiplier/solarSystem[i].orbit);
+                }
             }
         } else if (state == 'zoomIn') {
             controls.enableRotate = false;
@@ -511,7 +513,7 @@ function animate() {
             }
         }
 
-        if (state != 'view') {
+        if (state != 'view' && moveStatus) {
             solarSystem[viewPlanet].model.rotation.z += timeMultiplier/solarSystem[viewPlanet].rotation;
         }
 

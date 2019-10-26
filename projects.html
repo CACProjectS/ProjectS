@@ -82,7 +82,7 @@
             #infotoggle {
                 position:absolute;
                 left:20px;
-                bottom:60px;
+                bottom:80px;
                 display:none;
             }
             #backbutton {
@@ -94,13 +94,19 @@
             #orbitbutton {
                 position:absolute;
                 left:20px;
-                bottom:20px;
+                bottom:40px;
                 display:block;
             }
             #indicatorbutton {
                 position:absolute;
                 left:20px;
-                bottom:40px;
+                bottom:60px;
+                display:block;
+            }
+            #movebutton {
+                position:absolute;
+                left:20px;
+                bottom:20px;
                 display:block;
             }
         </style>
@@ -119,6 +125,7 @@
             var back = false;
             var indicatorStatus = false;
             var orbitStatus = false;
+            var moveStatus = true;
         </script>
 
         <button type="button" id="infotoggle" onclick="infoText(1000, screen.height/2-435, 700);">Toggle Info</button>
@@ -126,6 +133,7 @@
 
         <button type="button" id="orbitbutton" onclick="orbitStatus = !orbitStatus">Toggle Orbits</button>
         <button type="button" id="indicatorbutton" onclick="indicatorStatus = !indicatorStatus">Toggle Indicators</button>
+        <button type="button" id="movebutton" onclick="moveStatus = !moveStatus">Toggle Movement</button>
 
         <div id="titleScreen"></div>
         <img src="ProjectSLogo.png" id="logo">
