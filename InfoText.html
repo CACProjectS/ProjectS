@@ -122,8 +122,6 @@
                     infoBox.style.opacity = String(parseFloat(infoBox.style.opacity)+0.005);
                 }
                 if (textBlock.style.opacity < 1) {
-                    console.log(textBlock.style.opacity);
-                    console.log(textBlock.style.top);
                     textBlock.style.opacity = String(parseFloat(textBlock.style.opacity)+0.01);
                 }
                 if (bulletPoints.style.opacity < 1) {
@@ -196,8 +194,7 @@
         };
         
         window.addEventListener("click", function() {
-            console.log(screen.height/2);
-            infoText(1000, screen.height/2-410, 700);
+            infoText(1000, window.innerHeight/2-350, 700);
         });
     </script>
     </body>
